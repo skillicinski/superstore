@@ -24,6 +24,9 @@ ENV PATH="/app/.venv/bin:$PATH"
 # paths dbt assumes for config .yml files
 WORKDIR /app/dbt/superstore/
 
+# Install dbt packages
+RUN dbt deps
+
 # Make the entrypoint script executable (use absolute path)
 RUN chmod +x /app/entrypoint.sh
 

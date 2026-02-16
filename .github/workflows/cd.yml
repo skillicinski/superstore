@@ -51,6 +51,9 @@ jobs:
         uses: astral-sh/setup-uv@v7.3.0
       - name: install dependencies
         run: uv sync
+      - name: install dbt packages
+        working-directory: dbt/superstore
+        run: uv run dbt deps
       - name: run dbt
         working-directory: dbt/superstore
         env:
