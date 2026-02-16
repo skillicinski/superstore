@@ -1,11 +1,42 @@
 # Superstore
 
-This is a take-home case for a tech interview I completed as part of a hiring process.
+A learning project for building a modern data stack using dbt, Snowflake, Terraform, GCP and Kubernetes.
 
 ## Design
 
 ```mermaid
+graph LR
+    subgraph GCP
+        GCS[GCS Bucket<br/>CSV seed data]
+        AR[Artifact Registry<br/>Docker images]
+    end
 
+    subgraph Snowflake
+        STG[External Stage]
+        WH[Warehouse]
+    end
+
+    subgraph CI/CD
+        CI[GitHub Actions CI<br/>compile + build]
+        CD[GitHub Actions CD<br/>deploy + push]
+    end
+
+    GCS -->|storage integration| STG
+    STG -->|staging models| WH
+    CD -->|dbt build| WH
+    CD -->|docker push| AR
+
+    subgraph Orchestration
+        K8S[K8s CronJob]
+    end
+
+    AR -->|pulls image| K8S
+    K8S -->|dbt build| WH
+
+    TF[Terraform] -.->|provisions| GCS
+    TF -.->|provisions| AR
+    TF -.->|provisions| STG
+    TF -.->|provisions| WH
 ```
 
 ## Getting Started
@@ -54,7 +85,7 @@ Run `just setup` for setting up a local `.env` with your Snowflake credentials a
 
 ## IaC
 
-Terraform providers are set up for Snowflake and Google. The configuration provisions a warehouse, database, schemas and integration with Google Cloud Storage in Snowflake. It also deploys am Artifact Registry and Storage Bucket with the case's raw data in Google Cloud Storage. This allows the dbt Snowflake adapter to materialize all its models from CSVs in cloud storage, `dbt seed` can be used as a backup solution for exploration in Snowflake if the integration fails (experimental Terraform feature)
+Terraform providers are set up for Snowflake and Google. The configuration provisions a warehouse, database, schemas and integration with Google Cloud Storage in Snowflake. It also deploys an Artifact Registry and Storage Bucket with raw data in Google Cloud Storage. This allows the dbt Snowflake adapter to materialize all its models from CSVs in cloud storage, `dbt seed` can be used as a backup solution for exploration in Snowflake if the integration fails (experimental Terraform feature)
 
 ## Docker
 
