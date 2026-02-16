@@ -13,6 +13,12 @@ variable "snowflake_user" {
     description = "Snowflake user name"
 }
 
+variable "snowflake_private_key" {
+    type        = string
+    sensitive   = true
+    description = "Snowflake private key (PEM content)"
+}
+
 variable "gcp_project_id" {
     type        = string
     description = "Google Cloud Project ID"

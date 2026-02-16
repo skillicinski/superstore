@@ -9,6 +9,11 @@ terraform {
             version = "7.19.0"
         }
     }
+
+    backend "gcs" {
+        bucket = "project-2c81508f-6a88-4f9c-86d-tfstate"
+        prefix = "superstore"
+    }
 }
 
 provider "snowflake" {
@@ -21,7 +26,7 @@ provider "snowflake" {
 
     // A simple configuration of the provider with private key authentication.
     authenticator           = "SNOWFLAKE_JWT"
-    private_key             = file("${path.module}/../rsa_key.p8")
+    private_key             = var.snowflake_private_key
 
     // preview features
     preview_features_enabled = [

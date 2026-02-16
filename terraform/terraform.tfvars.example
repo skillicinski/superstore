@@ -1,6 +1,6 @@
 snowflake_organization_name = "NQNLVBS"
 snowflake_account_name      = "ER19736"
 snowflake_user              = "your_username"
-snowflake_private_key       = "-----BEGIN ENCRYPTED PRIVATE KEY-----\n...\n-----END ENCRYPTED PRIVATE KEY-----"
-
 gcp_project_id              = "project-2c81508f-6a88-4f9c-86d"
+
+# snowflake_private_key is passed via TF_VAR_snowflake_private_key env var
