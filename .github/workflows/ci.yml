@@ -16,6 +16,10 @@ jobs:
         run: uv sync
       - name: run dbt compile
         working-directory: dbt/superstore
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PRIVATE_KEY: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
         run: uv run dbt compile
 
   docker-build:
