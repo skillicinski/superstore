@@ -1,0 +1,17 @@
+superstore:
+  outputs:
+    dev:
+      type: snowflake
+      # account: NQNLVBS-ER19736
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      private_key_passphrase: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_PASSPHRASE', '') }}"
+      # private_key_path: /Users/simon/projects/superstore/rsa_key.p8
+      private_key: "{{ env_var('SNOWFLAKE_PRIVATE_KEY') }}"
+      role: ACCOUNTADMIN
+      threads: 1
+      # user: skillicinski
+      warehouse: skillicinski
+      schema: superstore
+      database: superstore
+  target: dev

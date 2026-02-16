@@ -1,0 +1,17 @@
+version: 2
+
+seeds:
+  - name: orders
+    config: 
+      quote_columns: true
+      delimiter: ";"
+
+  - name: people
+    config: 
+      quote_columns: true
+      delimiter: ";"
+
+  - name: returns
+    config:
+      quote_columns: true
+      delimiter: ";"

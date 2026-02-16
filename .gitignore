@@ -1,0 +1,28 @@
+# uv
+.venv/
+
+# dbt
+target/
+dbt_modules/
+
+# logs
+logs/
+
+# auth
+.env
+*.p8
+*.pub
+
+# terraform
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/*.tfvars
+
+# local docs
+research/
+instructions/
+plan/
+
+# k8s
+k8s/secrets.yml

@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: sales
+    columns:
+      - name: order_date
+        tests:
+          - not_null
+      - name: order_id
+        tests:
+          - not_null
+      - name: order_returned
+        tests:
+          - not_null
+      - name: region
+        tests:
+          - not_null
+      - name: state_province
+        tests:
+          - not_null
+      - name: product_category
+        tests:
+          - not_null
+      - name: product_id
+        tests:
+          - not_null

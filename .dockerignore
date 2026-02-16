@@ -1,0 +1,28 @@
+# uv
+.venv
+
+# raw data
+data/
+
+# local docs
+instructions/
+raw_data/
+research/
+
+# local dev
+justfile
+.env
+*.p8
+*.pub
+
+# git
+.git/
+
+# dbt
+**/target/
+
+# terraform
+terraform/
+
+# kubernetes
+k8s/

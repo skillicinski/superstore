@@ -1,0 +1,25 @@
+
+select
+    $1  as "Row ID"
+    , $2  as "Order ID"
+    , $3  as "Order Date"
+    , $4  as "Ship Date"
+    , $5  as "Ship Mode"
+    , $6  as "Customer ID"
+    , $7  as "Customer Name"
+    , $8  as "Segment"
+    , $9  as "Country/Region"
+    , $10 as "City"
+    , $11 as "State/Province"
+    , $12 as "Postal Code"
+    , $13 as "Region"
+    , $14 as "Product ID"
+    , $15 as "Category"
+    , $16 as "Sub-Category"
+    , $17 as "Product Name"
+    , $18 as "Sales"
+    , $19 as "Quantity"
+    , $20 as "Discount"
+    , $21 as "Profit"
+from @{{ target.database }}.seeds.gcs_seeds/orders.csv
+(file_format => '{{ target.database }}.seeds.csv_semicolon')

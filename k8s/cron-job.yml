@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: dbt-build-schedule
+spec:
+  schedule: "0 6 * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      # Container spec pointing to the Artifact Registry image
+      backoffLimit: 1 # Retry once on failure
+      template:
+        # This is the Pod template used by the Job
+        spec:
+          containers:
+            - name: dbt
+              image: europe-west4-docker.pkg.dev/project-2c81508f-6a88-4f9c-86d/superstore/superstore-dbt:latest
+              # Load all keys from reference Secret as env vars
+              envFrom:
+                # Referencing a secret for Snowflake credentials
+                - secretRef:
+                    name: snowflake-credentials
+          restartPolicy: Never
