@@ -6,7 +6,7 @@ COPY --from=ghcr.io/astral-sh/uv:0.10.2 /uv /uvx /bin/
 # Copy the project files into the image
 COPY pyproject.toml /app/
 COPY uv.lock /app/
-COPY dbt/superstore /app/dbt/superstore/
+COPY dbt /app/dbt/
 COPY entrypoint.sh /app/entrypoint.sh
 
 
@@ -22,7 +22,7 @@ ENV PATH="/app/.venv/bin:$PATH"
 
 # Switch working directory to match default 
 # paths dbt assumes for config .yml files
-WORKDIR /app/dbt/superstore/
+WORKDIR /app/dbt/
 
 # Install dbt packages
 RUN dbt deps

@@ -42,7 +42,7 @@ dbt *args:
     #!/usr/bin/env bash
     export $(cat .env | xargs)
     export SNOWFLAKE_PRIVATE_KEY=$(cat rsa_key.p8)
-    cd dbt/superstore
+    cd dbt
     uv run dbt {{ args }}
 
 # Build Docker image

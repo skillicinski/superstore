@@ -52,10 +52,10 @@ jobs:
       - name: install dependencies
         run: uv sync
       - name: install dbt packages
-        working-directory: dbt/superstore
+        working-directory: dbt
         run: uv run dbt deps
       - name: run dbt
-        working-directory: dbt/superstore
+        working-directory: dbt
         env:
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
