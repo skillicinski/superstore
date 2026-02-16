@@ -27,20 +27,28 @@ graph TD
 ### Tools
 
 ### justfile
-- `brew install just`
-- `just -l`
+```bash
+brew install just
+just -l
+```
 
 ### uv
-- `brew install uv`
-- `uv sync`
-- `uv lock`
+```bash
+brew install uv
+uv sync
+uv lock
+```
 
 ### Docker
-- `brew install docker`
+```bash
+brew install docker
+```
 
 ### Terraform
-- `brew tap hashicorp/tap`
-- `brew install hashicorp/tap/terraform`
+```bash
+brew tap hashicorp/tap
+brew install hashicorp/tap/terraform
+```
 
 ### Snowflake Key Pair Authentication
 Generate a private key (unencrypted):
