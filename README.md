@@ -5,38 +5,21 @@ A learning project for building a modern data stack using dbt, Snowflake, Terraf
 ## Design
 
 ```mermaid
-graph LR
-    subgraph GCP
-        GCS[GCS Bucket<br/>CSV seed data]
-        AR[Artifact Registry<br/>Docker images]
-    end
-
-    subgraph Snowflake
-        STG[External Stage]
-        WH[Warehouse]
-    end
-
-    subgraph CI/CD
-        CI[GitHub Actions CI<br/>compile + build]
-        CD[GitHub Actions CD<br/>deploy + push]
-    end
-
-    GCS -->|storage integration| STG
-    STG -->|staging models| WH
-    CD -->|dbt build| WH
+graph TD
+    GCS[GCS Bucket] -->|storage integration| Snowflake
+    Terraform -.->|provisions| GCS
+    Terraform -.->|provisions| Snowflake
+    Terraform -.->|provisions| AR[Artifact Registry]
+    CD[GitHub Actions CD] -->|terraform apply| Terraform
+    CD -->|dbt build| Snowflake
     CD -->|docker push| AR
-
-    subgraph Orchestration
-        K8S[K8s CronJob]
+    CI[GitHub Actions CI<br/>dbt compile + docker build + terraform plan] -->|checks pass| CD
+    subgraph GKE [GKE Autopilot]
+        K8s[K8s CronJob]
     end
-
-    AR -->|pulls image| K8S
-    K8S -->|dbt build| WH
-
-    TF[Terraform] -.->|provisions| GCS
-    TF -.->|provisions| AR
-    TF -.->|provisions| STG
-    TF -.->|provisions| WH
+    AR -->|pulls image| K8s
+    K8s -->|dbt build| Snowflake
+    style GKE stroke-dasharray: 5 5
 ```
 
 ## Getting Started
