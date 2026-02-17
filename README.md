@@ -95,3 +95,32 @@ The CI workflow could use the `manifest.json` from previous CD workflow runs. Th
 ## Orchestration
 
 A Kubernetes CronJob schedules the dbt project to build at 6 AM UTC when it is hosted in a cluster. The Kubernetes Job could also be called by an external orchestrator, eg. Airflow, Dagster, Airbyte, etc.
+
+To validate the Kubernetes setup, run:
+```bash
+brew install kubeconform
+kubeconform k8s/dbt-job.yml k8s/cron-job.yml
+```
+
+To run the `dbt-job` locally:
+```bash
+brew install kind
+kind create cluster
+```
+
+Then load the image, create the secret, and run the Job:
+```bash
+just k8s-load
+just k8s-secret
+just k8s-run
+```
+
+Check the Pod status:
+```bash
+kubectl get pods -w
+```
+
+If successful, you can now tail the logs:
+```bash
+kubectl logs -f job/dbt-build
+```

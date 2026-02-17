@@ -60,3 +60,29 @@ docker-test: docker-build
 docker-push: docker-build
     docker tag superstore-dbt europe-west4-docker.pkg.dev/project-2c81508f-6a88-4f9c-86d/superstore/superstore-dbt:latest
     docker push europe-west4-docker.pkg.dev/project-2c81508f-6a88-4f9c-86d/superstore/superstore-dbt:latest
+
+# Load Docker image into kind cluster
+[group('k8s')]
+k8s-load: docker-build
+    kind load docker-image superstore-dbt:latest
+
+# Create Snowflake credentials secret in cluster
+[group('k8s')]
+k8s-secret:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    kubectl create secret generic snowflake-credentials \
+      --from-literal=SNOWFLAKE_ACCOUNT="$(grep SNOWFLAKE_ACCOUNT .env | cut -d= -f2)" \
+      --from-literal=SNOWFLAKE_USER="$(grep SNOWFLAKE_USER .env | cut -d= -f2)" \
+      --from-literal=SNOWFLAKE_PRIVATE_KEY_PASSPHRASE="$(grep SNOWFLAKE_PRIVATE_KEY_PASSPHRASE .env | cut -d= -f2)" \
+      --from-file=SNOWFLAKE_PRIVATE_KEY=rsa_key.p8
+
+# Run dbt Job in kind cluster
+[group('k8s')]
+k8s-run:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    cat k8s/dbt-job.yml | \
+      sed 's|europe-west4-docker.pkg.dev/.*/superstore-dbt:latest|superstore-dbt:latest|' | \
+      sed '/image:/a\'$'\n''          imagePullPolicy: Never' | \
+      kubectl apply -f -
