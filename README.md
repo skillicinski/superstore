@@ -78,6 +78,8 @@ Run `just setup` for setting up a local `.env` with your Snowflake credentials a
 
 Terraform providers are set up for Snowflake and Google. The configuration provisions a warehouse, database, schemas and integration with Google Cloud Storage in Snowflake. It also deploys an Artifact Registry and Storage Bucket with raw data in Google Cloud Storage. This allows the dbt Snowflake adapter to materialize all its models from CSVs in cloud storage, `dbt seed` can be used as a backup solution for exploration in Snowflake if the integration fails (experimental Terraform feature)
 
+The terraform state is captured in a GCS bucket for use in CI/CD.
+
 ## Docker
 
 A Dockerfile collects the project functionality in a container. It can be built and tested locally with `just docker-build` and `just docker-test`. A manual recipe exists for pushing the image to the Artifact Registry, `just docker-push`.
@@ -86,7 +88,9 @@ A Dockerfile collects the project functionality in a container. It can be built 
 
 Github Actions trigger a CI workflow on pushes and PRs to main. The workflow runs `dbt compile` to catch any obvious issues with rendering the project, then attempts to build the project container.
 
-On merges to `main`, the CD workflow is triggered.
+On merges to `main`, the CD workflow is triggered. This applies the Terraform plan, runs `dbt build` with a full refresh and pushes the Docker image to the GCP Artifact Registry.
+
+The required Github Secrets are created with `just setup`.
 
 ### Future improvement
 

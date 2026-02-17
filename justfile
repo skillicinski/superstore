@@ -61,6 +61,16 @@ docker-push: docker-build
     docker tag superstore-dbt europe-west4-docker.pkg.dev/project-2c81508f-6a88-4f9c-86d/superstore/superstore-dbt:latest
     docker push europe-west4-docker.pkg.dev/project-2c81508f-6a88-4f9c-86d/superstore/superstore-dbt:latest
 
+# Run terraform plan
+[group('terraform')]
+tf-plan *args:
+    cd terraform && TF_VAR_snowflake_private_key="$(cat ../rsa_key.p8)" terraform plan {{ args }}
+
+# Run terraform apply
+[group('terraform')]
+tf-apply *args:
+    cd terraform && TF_VAR_snowflake_private_key="$(cat ../rsa_key.p8)" terraform apply {{ args }}
+
 # Load Docker image into kind cluster
 [group('k8s')]
 k8s-load: docker-build
