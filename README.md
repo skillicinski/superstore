@@ -124,3 +124,8 @@ If successful, you can now tail the logs:
 ```bash
 kubectl logs -f job/dbt-build
 ```
+
+When you're done testing:
+```bash
+kind delete cluster
+```
