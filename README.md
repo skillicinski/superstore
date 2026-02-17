@@ -78,6 +78,12 @@ Run `just setup` for setting up a local `.env` with your Snowflake credentials a
 
 Terraform providers are set up for Snowflake and Google. The configuration provisions a warehouse, database, schemas and integration with Google Cloud Storage in Snowflake. It also deploys an Artifact Registry and Storage Bucket with raw data in Google Cloud Storage. This allows the dbt Snowflake adapter to materialize all its models from CSVs in cloud storage, `dbt seed` can be used as a backup solution for exploration in Snowflake if the integration fails (experimental Terraform feature)
 
+To plan and apply the Terraform configuration, there are recipes prepared (that can take flag arguments):
+```bash
+just tf-plan
+just tf-apply
+```
+
 The terraform state is captured in a GCS bucket for use in CI/CD.
 
 ## Docker
