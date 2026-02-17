@@ -24,8 +24,9 @@ models:
       - name: product_id
         tests:
           - not_null
-    tests:
+    data_tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_id
-            - product_id
+          arguments:
+            combination_of_columns:
+              - order_id
+              - product_id
